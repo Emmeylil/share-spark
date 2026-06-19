@@ -12,7 +12,7 @@ import { Upload, Trash2 } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/admin/assets")({
   head: () => ({ meta: [{ title: "Assets — Admin" }] }),
-  component: AdminAssets;
+  component: AdminAssets,
 });
 
 function AdminAssets() {
