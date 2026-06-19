@@ -33,7 +33,7 @@ function AdminAnalytics() {
       const [users, downloads, clicks, profiles, assets] = await Promise.all([
         supabase.from("profiles").select("id", { count: "exact", head: true }),
         supabase.from("downloads").select("id, asset_id, user_id", { count: "exact" }),
-        supabase.from("clicks").select("id, profile_id", { count: "exact" }),
+        (supabase as any).from("clicks").select("id, profile_id", { count: "exact" }),
         supabase.from("profiles").select("id, name, department"),
         supabase.from("assets").select("id, title"),
       ]);

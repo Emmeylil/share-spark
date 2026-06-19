@@ -75,7 +75,7 @@ function Dashboard() {
   const myClicksQ = useQuery({
     queryKey: ["my-clicks", user.id],
     queryFn: async () => {
-      const { count, error } = await supabase
+      const { count, error } = await (supabase as any)
         .from("clicks")
         .select("id", { count: "exact", head: true })
         .eq("profile_id", user.id);
@@ -101,7 +101,7 @@ function Dashboard() {
   const leaderboardQ = useQuery({
     queryKey: ["leaderboard"],
     queryFn: async () => {
-      const { data, error } = await supabase.rpc("get_leaderboard");
+      const { data, error } = await (supabase as any).rpc("get_leaderboard");
       if (error) throw error;
       return data;
     },
