@@ -21,7 +21,7 @@ function AdminCampaigns() {
   const [form, setForm] = useState({
     campaign_name: "",
     utm_campaign: "",
-    base_url: "https://promo.company.com/campaign",
+    base_url: "https://www.jumia.com.ng/",
     start_date: "",
     end_date: "",
   });
@@ -52,7 +52,7 @@ function AdminCampaigns() {
     },
     onSuccess: () => {
       toast.success("Campaign created");
-      setForm({ campaign_name: "", utm_campaign: "", base_url: "https://promo.company.com/campaign", start_date: "", end_date: "" });
+      setForm({ campaign_name: "", utm_campaign: "", base_url: "https://www.jumia.com.ng/", start_date: "", end_date: "" });
       qc.invalidateQueries({ queryKey: ["all-campaigns"] });
     },
     onError: (e: any) => toast.error(e.message),
@@ -103,7 +103,7 @@ function AdminCampaigns() {
             </div>
             <div className="space-y-1.5">
               <Label>Base URL</Label>
-              <Input value={form.base_url} onChange={(e) => setForm({ ...form, base_url: e.target.value })} placeholder="https://promo.company.com/campaign" />
+              <Input value={form.base_url} onChange={(e) => setForm({ ...form, base_url: e.target.value })} placeholder="https://www.jumia.com.ng/" />
             </div>
             <div className="grid grid-cols-2 gap-3">
               <div className="space-y-1.5">
