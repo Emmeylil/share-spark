@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Copy, Download, Building2, Mail, Trophy, Link2 } from "lucide-react";
 import { toast } from "sonner";
+import { buildReferralLink } from "@/lib/utm";
 
 export const Route = createFileRoute("/_authenticated/dashboard")({
   head: () => ({ meta: [{ title: "Dashboard — Referral Hub" }] }),
@@ -110,8 +111,12 @@ function Dashboard() {
   const profile = profileQ.data;
   const campaign = campaignQ.data;
   const referralLink =
-    profile && campaign && typeof window !== "undefined"
-      ? `${window.location.origin}/r/${profile.slug}`
+    profile && campaign
+      ? buildReferralLink({
+          baseUrl: campaign.base_url,
+          utmCampaign: campaign.utm_campaign,
+          slug: profile.slug,
+        })
       : "";
 
   async function copy() {
