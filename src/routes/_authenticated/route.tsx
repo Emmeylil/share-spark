@@ -65,9 +65,10 @@ function AuthedLayout() {
       <header className="border-b border-border bg-card">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-3">
           <div className="flex items-center gap-6">
-            <Link to="/" className="flex items-center gap-2 font-semibold">
-              <span className="inline-block h-6 w-6 rounded-md bg-primary" />
-              Referral Hub
+            <Link to="/" className="flex items-center gap-3 font-semibold">
+              <img src="/logo.png" alt="Jumia Logo" className="h-5 object-contain" />
+              <span className="text-muted-foreground font-normal">|</span>
+              <span className="text-sm tracking-tight text-foreground">Employee Advocacy</span>
             </Link>
             <nav className="flex items-center gap-1 text-sm">
               <NavLink to="/dashboard" active={pathname === "/dashboard"}>

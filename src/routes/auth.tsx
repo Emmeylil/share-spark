@@ -30,9 +30,10 @@ function AuthPage() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
       <div className="w-full max-w-md">
-        <Link to="/" className="mb-6 flex items-center justify-center gap-2 text-lg font-semibold">
-          <span className="inline-block h-7 w-7 rounded-md bg-primary" />
-          Referral Hub
+        <Link to="/" className="mb-6 flex items-center justify-center gap-3 font-semibold">
+          <img src="/logo.png" alt="Jumia Logo" className="h-8 object-contain" />
+          <span className="text-muted-foreground font-normal">|</span>
+          <span className="text-base tracking-tight text-foreground font-medium">Employee Advocacy</span>
         </Link>
         <Card>
           <CardHeader>
