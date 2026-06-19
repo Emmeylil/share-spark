@@ -5,16 +5,16 @@ import { Link2, BarChart3, Download } from "lucide-react";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Referral Hub — Share campaigns, track impact" },
+      { title: "Jumia Employee Advocacy — Share campaigns, track impact" },
       {
         name: "description",
         content:
-          "Internal referral platform for staff to share campaign assets with tracked, branded UTM links.",
+          "Internal employee advocacy platform for staff to share campaign assets with tracked referral links.",
       },
-      { property: "og:title", content: "Referral Hub" },
+      { property: "og:title", content: "Jumia Employee Advocacy" },
       {
         property: "og:description",
-        content: "Share campaigns. Track impact. Built for the team.",
+        content: "Share campaigns. Track impact. Built for the Jumia team.",
       },
     ],
   }),
@@ -28,15 +28,15 @@ function Landing() {
         <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
           <div className="flex items-center gap-2 text-lg font-semibold">
             <span className="inline-block h-7 w-7 rounded-md bg-primary" />
-            Referral Hub
+            Jumia Employee Advocacy
           </div>
           <div className="flex gap-2">
             <Button asChild variant="ghost">
-              <Link to="/auth">Sign in</Link>
+              <Link to="/auth">Sign In</Link>
             </Button>
             <Button asChild>
               <Link to="/auth" search={{ mode: "signup" }}>
-                Get started
+                Join the Program
               </Link>
             </Button>
           </div>
@@ -46,23 +46,24 @@ function Landing() {
       <main>
         <section className="mx-auto max-w-6xl px-6 py-24 text-center">
           <p className="mb-4 inline-flex rounded-full bg-accent px-3 py-1 text-xs font-medium text-accent-foreground">
-            Internal employee advocacy
+            Employee Advocacy
           </p>
           <h1 className="mx-auto max-w-3xl text-5xl font-bold leading-tight tracking-tight sm:text-6xl">
-            Turn every teammate into a campaign channel.
+            Every Employee Can Help Grow Jumia.
           </h1>
-          <p className="mx-auto mt-6 max-w-xl text-lg text-muted-foreground">
-            Generate branded referral links, share campaign creatives, and track
-            who's driving real impact — all from one dashboard.
+          <p className="mx-auto mt-6 max-w-2xl text-lg text-muted-foreground">
+            Share campaigns with friends, family, and your network using your
+            unique referral link. Track your impact and see how your referrals
+            contribute to Jumia's growth.
           </p>
           <div className="mt-10 flex justify-center gap-3">
             <Button asChild size="lg">
               <Link to="/auth" search={{ mode: "signup" }}>
-                Create your account
+                Join the Program
               </Link>
             </Button>
             <Button asChild size="lg" variant="outline">
-              <Link to="/auth">I already have an account</Link>
+              <Link to="/auth">Sign In</Link>
             </Button>
           </div>
         </section>
@@ -71,18 +72,18 @@ function Landing() {
           {[
             {
               icon: Link2,
-              title: "Personal referral links",
-              body: "Each user gets a unique UTM link auto-built from the active campaign.",
+              title: "Personal Tracking Link",
+              body: "Every referral is automatically attributed to you.",
             },
             {
               icon: Download,
-              title: "Campaign creatives",
-              body: "Download approved banners and videos in one click — no asking marketing.",
+              title: "Campaign Library",
+              body: "Access approved content ready for sharing.",
             },
             {
               icon: BarChart3,
-              title: "Admin analytics",
-              body: "See top departments, top creatives, and who's actively sharing.",
+              title: "Impact Analytics",
+              body: "Track clicks, registrations, purchases, and performance trends.",
             },
           ].map(({ icon: Icon, title, body }) => (
             <div
@@ -103,3 +104,4 @@ function Landing() {
     </div>
   );
 }
+
