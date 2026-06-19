@@ -8,8 +8,29 @@ import { useQueryClient } from "@tanstack/react-query";
 export const Route = createFileRoute("/_authenticated")({
   ssr: false,
   beforeLoad: async () => {
+    // 1. Skip redirect on server-side (SSR) to prevent auto-logout on refresh
+    if (typeof window === "undefined") {
+      return { user: null as any };
+    }
+
+    // 2. Read current session from memory/storage
+    const { data: { session } } = await supabase.auth.getSession();
+
+    // 3. Fallback: check localStorage directly to see if a token exists but hasn't resolved yet
+    if (!session) {
+      const hasToken = Object.keys(localStorage).some((key) =>
+        key.startsWith("sb-") && key.endsWith("-auth-token")
+      );
+      if (!hasToken) {
+        throw redirect({ to: "/auth" });
+      }
+    }
+
+    // 4. Retrieve user details from Supabase (validates token)
     const { data, error } = await supabase.auth.getUser();
-    if (error || !data.user) throw redirect({ to: "/auth" });
+    if (error || !data.user) {
+      throw redirect({ to: "/auth" });
+    }
     return { user: data.user };
   },
   component: AuthedLayout,

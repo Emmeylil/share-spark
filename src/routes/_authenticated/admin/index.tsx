@@ -30,25 +30,40 @@ function AdminAnalytics() {
   const overview = useQuery({
     queryKey: ["admin-overview"],
     queryFn: async () => {
-      const [users, downloads, profiles, assets] = await Promise.all([
+      const [users, downloads, clicks, profiles, assets] = await Promise.all([
         supabase.from("profiles").select("id", { count: "exact", head: true }),
         supabase.from("downloads").select("id, asset_id, user_id", { count: "exact" }),
+        supabase.from("clicks").select("id, profile_id", { count: "exact" }),
         supabase.from("profiles").select("id, name, department"),
         supabase.from("assets").select("id, title"),
       ]);
       const downloadsRows = downloads.data ?? [];
+      const clicksRows = clicks.data ?? [];
 
-      // Top department
+      // Top department count (clicks + downloads)
       const profById = new Map((profiles.data ?? []).map((p) => [p.id, p]));
       const deptCount = new Map<string, number>();
       const userDownloads = new Map<string, number>();
+      const userClicks = new Map<string, number>();
       const assetDownloads = new Map<string, number>();
+
+      for (const c of clicksRows) {
+        const p = profById.get(c.profile_id);
+        if (p?.department) {
+          deptCount.set(p.department, (deptCount.get(p.department) ?? 0) + 1);
+        }
+        userClicks.set(c.profile_id, (userClicks.get(c.profile_id) ?? 0) + 1);
+      }
+
       for (const d of downloadsRows) {
         const p = profById.get(d.user_id);
-        if (p?.department) deptCount.set(p.department, (deptCount.get(p.department) ?? 0) + 1);
+        if (p?.department) {
+          deptCount.set(p.department, (deptCount.get(p.department) ?? 0) + 1);
+        }
         userDownloads.set(d.user_id, (userDownloads.get(d.user_id) ?? 0) + 1);
         assetDownloads.set(d.asset_id, (assetDownloads.get(d.asset_id) ?? 0) + 1);
       }
+
       const topDept = [...deptCount.entries()].sort((a, b) => b[1] - a[1])[0]?.[0] ?? "—";
       const topAssetId = [...assetDownloads.entries()].sort((a, b) => b[1] - a[1])[0]?.[0];
       const topAsset = (assets.data ?? []).find((a) => a.id === topAssetId)?.title ?? "—";
@@ -58,13 +73,15 @@ function AdminAnalytics() {
         .map((p) => ({
           name: p.name,
           department: p.department,
+          clicks: userClicks.get(p.id) ?? 0,
           downloads: userDownloads.get(p.id) ?? 0,
         }))
-        .sort((a, b) => b.downloads - a.downloads)
+        .sort((a, b) => b.clicks - a.clicks || b.downloads - a.downloads)
         .slice(0, 10);
 
       return {
         userCount: users.count ?? 0,
+        clickCount: clicks.count ?? 0,
         downloadCount: downloads.count ?? 0,
         topDept,
         topAsset,
@@ -79,7 +96,7 @@ function AdminAnalytics() {
     <div className="space-y-8">
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
         <Stat icon={Users} label="Users" value={d?.userCount ?? "—"} />
-        <Stat icon={Link2} label="Links Generated" value={d?.userCount ?? "—"} />
+        <Stat icon={Link2} label="Link Clicks" value={d?.clickCount ?? "—"} />
         <Stat icon={Download} label="Downloads" value={d?.downloadCount ?? "—"} />
         <Stat icon={Building2} label="Top Department" value={d?.topDept ?? "—"} />
         <Stat icon={ImageIcon} label="Top Creative" value={d?.topAsset ?? "—"} />
@@ -95,6 +112,7 @@ function AdminAnalytics() {
               <TableRow>
                 <TableHead>User</TableHead>
                 <TableHead>Department</TableHead>
+                <TableHead className="text-right">Clicks</TableHead>
                 <TableHead className="text-right">Downloads</TableHead>
               </TableRow>
             </TableHeader>
@@ -103,12 +121,13 @@ function AdminAnalytics() {
                 <TableRow key={i}>
                   <TableCell className="font-medium">{r.name}</TableCell>
                   <TableCell className="text-muted-foreground">{r.department}</TableCell>
+                  <TableCell className="text-right">{r.clicks}</TableCell>
                   <TableCell className="text-right">{r.downloads}</TableCell>
                 </TableRow>
               ))}
               {d && d.rows.length === 0 && (
                 <TableRow>
-                  <TableCell colSpan={3} className="text-center text-muted-foreground">
+                  <TableCell colSpan={4} className="text-center text-muted-foreground">
                     No activity yet.
                   </TableCell>
                 </TableRow>
