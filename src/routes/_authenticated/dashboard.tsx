@@ -243,7 +243,7 @@ function Dashboard() {
             </CardHeader>
             <CardContent className="p-0">
               <div className="divide-y divide-border/40">
-                {leaderboardQ.data?.map((user, idx) => {
+                {leaderboardQ.data?.map((user: any, idx: number) => {
                   const isTop3 = idx < 3;
                   const medals = ["🥇", "🥈", "🥉"];
                   return (
