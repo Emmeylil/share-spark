@@ -86,6 +86,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:description", content: "Internal employee advocacy and campaign-sharing platform." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
+      { name: "twitter:title", content: "Referral Hub" },
+      { name: "twitter:description", content: "Internal employee advocacy and campaign-sharing platform." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/6a615120-2753-4d6a-bfb0-0cf2b6779d9d/id-preview-30fe4741--e36c14c1-8475-43a1-ae52-eac5c4e1c70d.lovable.app-1781883222579.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/6a615120-2753-4d6a-bfb0-0cf2b6779d9d/id-preview-30fe4741--e36c14c1-8475-43a1-ae52-eac5c4e1c70d.lovable.app-1781883222579.png" },
     ],
     links: [
       {
